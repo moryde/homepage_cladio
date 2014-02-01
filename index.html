@@ -1,0 +1,86 @@
+<!--<link rel="stylesheet" type="text/css" href="<?php bloginfo('stylesheet_url'); ?>" media="" />
+<link rel="stylesheet" media="" href="<?php bloginfo('template_directory'); ?>/smallStyle.css" />-->
+<link id="size-stylesheet" rel="stylesheet" type="text/css" href="style.css" />
+<script src="code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="jquery-ui-1.10.1.custom.min.js" type="text/javascript"></script>
+
+<script>
+$(document).ready(function() {
+function adjustStyle(width) {
+    width = parseInt(width);
+    if (width < 701) {
+        $("#size-stylesheet").attr("href", "smallStyle.css");
+        console.log(LOL);
+    } else if (width >= 701) {    
+        $("#size-stylesheet").attr("href", "Style.css");
+    }
+}
+
+$(function() {
+    adjustStyle($(this).width());
+    $(window).resize(function() {
+        adjustStyle($(this).width());
+    });
+});
+
+});
+
+
+</script>
+	<div class="head">
+		
+		<div class="logo">
+			<img src="images/logo.png">
+		</div>
+		
+		<div class="menuContainer">
+			<div class="topMenu">
+				<?php wp_nav_menu(); ?>
+				<ul>				<li id="headline"> Morten Ydefeldt </li>
+				<li> Mikael Soerensen</li>
+				<li> Martin Jensen</li>
+				<li>Rasmus Ljungemann</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+	<div class="wrapper">
+			
+			<div class="menuContainer">
+				<div class="mainMenu">
+					<?php wp_nav_menu(); ?> 
+					<ul>
+						<li id="headline"> Morten Ydefeldt </li>
+						<li> Mikael Soerensen</li>
+						<li> Martin Jensen</li>
+						<li>Rasmus Ljungemann</li>
+					</ul>   
+				</div>
+			</div>
+			
+			<div class="content">
+					<div class="pictures">
+						<img class="border-right" src="images/screen.png" alt="" width="200px" />
+						<img class="border-right" src="images/screen.png" alt="" width="200px" />
+						<img class="border-right" src="images/screen.png" alt="" width="200px" />
+						<img class="border-right" src="images/screen.png" alt="" width="200px" />
+						<img class="border-right" src="images/screen.png" alt="" width="200px" />
+						<img class="border-right" src="images/screen.png" alt="" width="200px" />
+						<img class="border-right" src="images/screen.png" alt="" width="200px" />
+						<img class="border-right" src="images/screen.png" alt="" width="200px" />
+						<img class="border-right" src="images/screen.png" alt="" width="200px" />
+						<img class="border-right" src="images/screen.png" alt="" width="200px" />
+						<img class="border-right" src="images/screen.png" alt="" width="200px" />
+
+						
+					</div>
+			</div>
+	</div>	
+	
+	
+	<div class="footer">
+	</div>
+	
+	
