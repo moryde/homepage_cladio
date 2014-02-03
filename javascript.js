@@ -6,11 +6,26 @@ $(window).load(function () {
     
     $('#logo').click(function (event) {
         //$('.pictures').isotope('shuffle');
-        //var $newItems = $('<div class="item">lol</div>');
-		//$('.pictures').isotope( 'insert', $newItems ); 
+        var $newItems = $('<div class="item">lol</div>');
+		
+		var img = document.createElement("img");
+		var date1 = new Date().getTime();
+		img.src = "http://ydefeldt.com/photo/wp-content/gallery/lasse-wind/vk_05_139357.jpg";
+		img.onload = function() {
+		    var date2 = new Date().getTime();
+		    var delta = date2 - date1;
+		    
+		};
+		
+		
     });
 
     $(document).ready(function () {
+       $('.pictures').isotope({
+           filter: '*',
+           layoutMode: 'fitRows'
+       });
+       
         $('.loadingScreen').hide();
 
         $('.mainmenu #data-filter').click(function (event) {
@@ -47,14 +62,17 @@ $(window).load(function () {
             $.ajax({
                 url: 'http://ydefeldt.com/photo/wp-admin/admin-ajax.php',
                 data: {
-                    'action': 'get_picture_ids_ajax',
+                    'action': 'get_picture_ids_thumb_url',
                     'type': type,
                     'getter': getter
 
                 },
                 success: function (data) {
+                
                     // This outputs the result of the ajax request
                     var returnedData = JSON.parse(data);
+                    console.log(returnedData);
+                    
                     switch (returnedData[0]) {
                     case 'tag':
                         returnedData.shift();
@@ -83,7 +101,6 @@ $(window).load(function () {
 });
 
 var getImage = function (getter, type) {
-
     $.ajax({
         url: 'http://ydefeldt.com/photo/wp-admin/admin-ajax.php',
         data: {
@@ -95,7 +112,6 @@ var getImage = function (getter, type) {
         success: function (data) {
             // This outputs the result of the ajax request
             //$('.pictures').isotope('appended', $( data ) );
-            console.log(data);
             var $appendContent = $( data );
            $('.pictures').isotope( 'insert', $appendContent ); 
             

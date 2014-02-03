@@ -7,6 +7,9 @@ add_action('wp_ajax_get_picture_ajax', 'get_picture_ajax');
 add_action('wp_ajax_nopriv_get_picture_ids_ajax', 'get_picture_ids_ajax');
 add_action('wp_ajax_get_picture_ids_ajax', 'get_picture_ids_ajax');
 
+add_action('wp_ajax_nopriv_get_picture_ids_thumb_url', 'get_picture_ids_thumb_url');
+add_action('wp_ajax_get_picture_ids_thumb_url', 'get_picture_ids_thumb_url');
+
 add_theme_support('menus');
 register_nav_menus(array(
     'photographers' => 'photographers',
@@ -43,6 +46,33 @@ function get_picture_ids_ajax() {
 	
 }
 
+function get_picture_ids_thumb_url() {
+	if (isset($_REQUEST)) {
+	    global $nggdb;
+		switch ($_REQUEST['type']) {
+			case "gid":
+			     $getter = $_REQUEST['getter'];
+        		 $image_ids = $nggdb->get_ids_from_gallery($_REQUEST['getter']);
+        		 $image_ids[0] = $_REQUEST['type']; // <-- DELETE THE FIRST IMAGE
+        		 echo json_encode($image_ids);
+				 break;
+			case "tag":
+				 $getter = $_REQUEST['getter'];
+    			 $images = nggTags::find_images_for_tags($_REQUEST['getter']);
+    			 $image_ids[] = $_REQUEST['type'];
+    			 foreach ($images as $image) {
+    			 	$image_ids[] = $image->thumbURL;
+    			 }
+    			 echo json_encode($image_ids);
+				 break;
+			default:
+				 echo("Ivalid request type");
+				 break;
+		}
+	}
+	die();
+	
+}
 
 //ajax callback
 function get_picture_ajax()
