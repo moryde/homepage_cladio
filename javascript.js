@@ -50,8 +50,15 @@ $(window).load(function () {
             var type = $(this).attr('type');
             var getter = $(this).attr(type);
             //$('.pictures').isotope( 'remove', $('.isotope-item') );
-            $('.pictures').find('img').remove();
-
+            
+            $('.pictures').fadeOut(function( ) {
+            
+                        $('.pictures').find('img').remove();
+            
+            
+            });
+            
+			$('.loadingScreen').fadeIn(500);
             $('.pictures').isotope('destroy');
             $.ajax({
                 url: 'http://ydefeldt.com/photo/wp-admin/admin-ajax.php',
@@ -70,6 +77,8 @@ $(window).load(function () {
                         });
                         
                         $('.pictures').imagesLoaded( function(){
+                          			$('.loadingScreen').fadeOut();
+                          			$('.pictures').fadeIn();
                           $('.pictures').isotope({
 								filter: '*',
 								layoutMode: 'fitRows'                          

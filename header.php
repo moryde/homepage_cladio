@@ -11,7 +11,7 @@
 
 
 </head>
-<div class="loadingScreen"></div>
+<div class="loadingScreen"><img src="<?php bloginfo('template_directory');?>/images/ajax-loader.gif"></div>
 <div class="head">
     <div class="logo">
         <img id="logo" src="http://ydefeldt.com/photo/wp-content/themes/cc/images/logo2X.png">
