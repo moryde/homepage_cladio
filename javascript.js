@@ -11,20 +11,12 @@ $(window).load(function () {
 		var img = document.createElement("img");
 		var date1 = new Date().getTime();
 		img.src = "http://ydefeldt.com/photo/wp-content/gallery/lasse-wind/vk_05_139357.jpg";
-		img.onload = function() {
-		    var date2 = new Date().getTime();
-		    var delta = date2 - date1;
-		    
-		};
+
 		
 		
     });
 
     $(document).ready(function () {
-       $('.pictures').isotope({
-           filter: '*',
-           layoutMode: 'fitRows'
-       });
        
         $('.loadingScreen').hide();
 
@@ -57,8 +49,10 @@ $(window).load(function () {
             //detect which type of button is pressed
             var type = $(this).attr('type');
             var getter = $(this).attr(type);
-            $('.pictures').isotope( 'remove', $('.isotope-item') );
-            //$('.pictures').isotope('reLayout');
+            //$('.pictures').isotope( 'remove', $('.isotope-item') );
+            $('.pictures').find('img').remove();
+
+            $('.pictures').isotope('destroy');
             $.ajax({
                 url: 'http://ydefeldt.com/photo/wp-admin/admin-ajax.php',
                 data: {
@@ -68,26 +62,21 @@ $(window).load(function () {
 
                 },
                 success: function (data) {
-                
+                	console.log(data);
                     // This outputs the result of the ajax request
                     var returnedData = JSON.parse(data);
-                    console.log(returnedData);
-                    
-                    switch (returnedData[0]) {
-                    case 'tag':
-                        returnedData.shift();
-                        $.each(returnedData, function (key, value) {
-                            getImage(value, 'tag');
+                            $.each(returnedData, function (key, value) {
+							$('.pictures').append(value);
                         });
-                        break;
+                        
+                        $('.pictures').imagesLoaded( function(){
+                          $('.pictures').isotope({
+								filter: '*',
+								layoutMode: 'fitRows'                          
+								});
+                          });
+                        
 
-                    case 'gid':
-                        returnedData.shift();
-                        $.each(returnedData, function (key, value) {
-                            getImage(value, 'gid');
-                        });
-                        break;
-                    }
 
                 },
                 error: function (errorThrown) {

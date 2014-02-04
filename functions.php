@@ -52,23 +52,38 @@ function get_picture_ids_thumb_url() {
 		switch ($_REQUEST['type']) {
 			case "gid":
 			     $getter = $_REQUEST['getter'];
-        		 $image_ids = $nggdb->get_ids_from_gallery($_REQUEST['getter']);
-        		 $image_ids[0] = $_REQUEST['type']; // <-- DELETE THE FIRST IMAGE
-        		 echo json_encode($image_ids);
-				 break;
+        		 //$image_ids = $nggdb->get_ids_from_gallery($_REQUEST['getter']);
+        		 $gallery = $nggdb->get_gallery($_REQUEST['getter']);
+    			 $tags = "";
+    			 
+    			 foreach ($gallery as $image) {
+	    			 foreach ($image->tags as $tag) {
+	    			    $tags .= $tag->slug . " ";
+	    			 }
+	    			 $data_filter = substr_replace($tags, "", -1);
+	    			 $image_ids[] = "<div class=\"$data_filter\"><a href=\"$image->imageURL\"><img src=\"$image->thumbURL\"></a></div>";
+	    			 $tags = "";
+					
+    			 	//$image_ids[] = $image->get_href_thumb_link();
+    			 	//$image_ids[] = $image->thumbURL;
+    			 }
+    			 
+   				 break;
 			case "tag":
 				 $getter = $_REQUEST['getter'];
     			 $images = nggTags::find_images_for_tags($_REQUEST['getter']);
-    			 $image_ids[] = $_REQUEST['type'];
     			 foreach ($images as $image) {
-    			 	$image_ids[] = $image->thumbURL;
+    			 	//$image_ids[] = $image->get_href_thumb_link();
+    			 	$data_filter = $image->galleryid;
+    			 	$image_ids[] = "<div class=\"$data_filter\"><a href=\"$image->imageURL\"><img src=\"$image->thumbURL\"></a></div>";
     			 }
-    			 echo json_encode($image_ids);
 				 break;
 			default:
 				 echo("Ivalid request type");
 				 break;
 		}
+		echo json_encode($image_ids);
+		
 	}
 	die();
 	
@@ -213,7 +228,6 @@ function get_picture_with_tag($ID)
     global $nggdb;
     
     $image = $nggdb->find_image( $ID );
-
             
         $data_filter = $image->galleryid;
         echo "<div class=\"$data_filter\">";
@@ -222,6 +236,30 @@ function get_picture_with_tag($ID)
         echo "</a>";
         echo "</div>";
 }
+
+function get_picture_with_tag_json($ID)
+{
+    global $nggdb;
+    
+    $image = $nggdb->find_image( $ID );
+            
+        $data_filter = $image->galleryid;
+        echo "<div class=\"$data_filter\"><a href=\"$image->imageURL\"><img src=\"$image->thumbURL\"></a></div>";
+}
+
+
+function get_picture_with_gid_json($ID)
+{
+    global $nggdb;
+    $image = $nggdb->find_image( $ID );
+        foreach ($image->tags as $tag) {
+           $tags .= $tag->slug . " ";
+        }
+        $data_filter = substr_replace($tags, "", -1);
+        echo "<div class=\"$data_filter\"><a href=\"$image->imageURL\"><img src=\"$image->thumbURL\"></a></div>";
+        $tags = "";
+}
+
 
 function get_random_pictures()
 {
