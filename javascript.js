@@ -17,6 +17,14 @@ $(window).load(function () {
     });
 
     $(document).ready(function () {
+    
+
+    window.onhashchange = function(){
+        var what_to_do = document.location.hash;    
+        if (what_to_do=="#show_picture")
+            show_picture();
+    }
+    
        
         $('.loadingScreen').hide();
 
@@ -33,10 +41,14 @@ $(window).load(function () {
         });
 
         $('.mainmenu #topLevelAjaxButton').click(function (event) {
+            document.location.hash = $(this).attr('gid');
+            
             console.log("topLevelAjaxButton is pressed");
+            var $url;
             event.preventDefault();
+
             if ($(this).hasClass('current')) {
-                return;
+                            return;
             }
             //remove current from previous current and collapse submenu
             $('.mainmenu').find('.current').children('ul').slideToggle();
@@ -96,7 +108,21 @@ $(window).load(function () {
 
         });
     });
+var param1 = getUrlVars();
+$( "[gid|="+param1['gid']+"]" ).trigger('click');
 });
+
+function getUrlVars() {
+  var vars = [], hash;
+  var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+  for(var i = 0; i < hashes.length; i++)
+  {
+      hash = hashes[i].split('=');
+      vars.push(hash[0]);
+      vars[hash[0]] = hash[1];
+  }
+  return vars;
+}
 
 var getImage = function (getter, type) {
     $.ajax({
