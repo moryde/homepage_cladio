@@ -18,6 +18,15 @@ $(window).load(function () {
 
     $(document).ready(function () {
     
+    
+$('img').click(function (event) {
+            event.preventDefault();
+			console.log(this);
+	var url = $(this).attr('href');
+	console.log(url);
+	//$('.pictures').fadeOut();
+	
+        });
 
     window.onhashchange = function(){
         var what_to_do = document.location.hash;    
@@ -108,6 +117,7 @@ $(window).load(function () {
 
         });
     });
+    
 var param1 = getUrlVars();
 $( "[gid|="+param1['gid']+"]" ).trigger('click');
 });
