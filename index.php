@@ -6,9 +6,11 @@
             
             
             <div class="content">
+            
 			                <div class="sidebar">			
 			                	<?php get_sidebar(); ?>
 			                </div>
+			                
             <div class="pictures">
               <?php while ( have_posts() ) : the_post(); ?>
               	<div class="post">

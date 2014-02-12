@@ -4,6 +4,10 @@
 add_action('wp_ajax_nopriv_get_picture_ajax', 'get_picture_ajax');
 add_action('wp_ajax_get_picture_ajax', 'get_picture_ajax');
 
+add_action('wp_ajax_nopriv_display_picture_from_url', 'display_picture_from_url');
+add_action('wp_ajax_display_picture_from_url', 'display_picture_from_url');
+
+
 add_action('wp_ajax_nopriv_get_picture_ids_ajax', 'get_picture_ids_ajax');
 add_action('wp_ajax_get_picture_ids_ajax', 'get_picture_ids_ajax');
 
@@ -18,6 +22,16 @@ register_nav_menus(array(
 ));
 
 register_sidebar();
+
+function display_picture_from_url() {
+if (isset($_REQUEST)) {
+	$url = $_REQUEST['url'];
+	echo '<img src="'.$url.'">';
+
+}
+
+}
+
 
 function get_picture_ids_ajax() {
 	if (isset($_REQUEST)) {
@@ -275,6 +289,7 @@ function get_random_pictures()
         }
         $new = substr_replace($tags, "", -1);
         echo "<div class=\"$new\">";
+        //echo "<a href=\"$image->imageURL\">";
         echo "<a href=\"http://www.ydefeldt.com/photo/?page_id=325&gid=$image->galleryid\">";
         echo "<img src=\"$image->thumbURL\">";
         echo "</a>";

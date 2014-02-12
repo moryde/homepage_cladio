@@ -5,29 +5,16 @@ $(window).load(function () {
     });
     
     $('#logo').click(function (event) {
-        //$('.pictures').isotope('shuffle');
-        var $newItems = $('<div class="item">lol</div>');
-		
-		var img = document.createElement("img");
-		var date1 = new Date().getTime();
-		img.src = "http://ydefeldt.com/photo/wp-content/gallery/lasse-wind/vk_05_139357.jpg";
-
-		
-		
+        $('.pictures').isotope('shuffle');
     });
 
-    $(document).ready(function () {
-    
-    
-$('img').click(function (event) {
-            event.preventDefault();
-			console.log(this);
-	var url = $(this).attr('href');
-	console.log(url);
-	//$('.pictures').fadeOut();
-	
-        });
 
+
+    $(document).ready(function () {
+    $('.imageView').hide();
+	
+	
+    
     window.onhashchange = function(){
         var what_to_do = document.location.hash;    
         if (what_to_do=="#show_picture")
@@ -39,6 +26,8 @@ $('img').click(function (event) {
 
         $('.mainmenu #data-filter').click(function (event) {
             console.log("subMenu Item Pressed");
+            $('.imageView').hide();
+            $('.pictures').show();
             $('.mainmenu .currentSub').removeClass('currentSub');
             $(this).addClass('currentSub');
 
@@ -55,18 +44,18 @@ $('img').click(function (event) {
             console.log("topLevelAjaxButton is pressed");
             var $url;
             event.preventDefault();
-
+			$('.imageView').hide();
             if ($(this).hasClass('current')) {
                             return;
             }
             //remove current from previous current and collapse submenu
             $('.mainmenu').find('.current').children('ul').slideToggle();
             $('.mainmenu .current').removeClass('current');
-
+			
             //add the this menu as the current and expand submenu
             $(this).addClass('current');
             $(this).children('ul').slideToggle();
-
+			
             //detect which type of button is pressed
             var type = $(this).attr('type');
             var getter = $(this).attr(type);
@@ -74,7 +63,7 @@ $('img').click(function (event) {
             
             $('.pictures').fadeOut(function( ) {
             
-                        $('.pictures').find('img').remove();
+                        $('.pictures').find('*').remove();
             
             
             });
@@ -90,22 +79,27 @@ $('img').click(function (event) {
 
                 },
                 success: function (data) {
-                	console.log(data);
                     // This outputs the result of the ajax request
+
                     var returnedData = JSON.parse(data);
                             $.each(returnedData, function (key, value) {
 							$('.pictures').append(value);
                         });
                         
+                        
                         $('.pictures').imagesLoaded( function(){
+                        
                           			$('.loadingScreen').fadeOut();
                           			$('.pictures').fadeIn();
+                          			                     			
                           $('.pictures').isotope({
 								filter: '*',
 								layoutMode: 'fitRows'                          
 								});
+                          
+	clickImage();
                           });
-                        
+                          
 
 
                 },
@@ -133,6 +127,68 @@ function getUrlVars() {
   }
   return vars;
 }
+
+function clickImage() {
+    
+$('.isotope-item a').click(function (event) {
+  event.preventDefault();
+	console.log($(this));
+	
+	$('.currentImage').removeClass();
+	$(this).parent().addClass('currentImage');
+	
+	var url = $(this).attr('href');
+	$('.pictures').fadeOut();
+	//$('.content').append('<div class="pre"><--</div><div class="next">--></div><div class="imageView"></div>');
+	$('.imageView img').remove();
+	$('.imageView').show();
+	$('.imageView').append('<img src="'+url+'">');
+        });
+
+$('.next').click(function () {
+
+	var next = $('.currentImage').nextAll().not('.isotope-hidden').first();
+	
+	if (next.length == 0) {
+	console.log("EOF (NEXT)");
+		return;
+	}
+	
+	$('.currentImage').removeClass('currentImage');
+	next.addClass('currentImage');
+	var url = next.find('a').attr("href");
+	$('.imageView img').remove();
+		$('.imageView').append('<img src="'+url+'">');
+        });
+
+
+$('.pre').click(function () {
+
+	var next = $('.currentImage').prevAll().not('.isotope-hidden').first();
+	
+	if (next.length == 0) {
+	console.log("EOF (PRE)");
+		return;
+	}
+	
+	console.log(next);
+	
+	$('.currentImage').removeClass('currentImage');
+	next.addClass('currentImage');
+	var url = next.find('a').attr("href");
+	$('.imageView img').remove();
+		$('.imageView').append('<img src="'+url+'">');
+        });
+
+$('.imageView img').click(function () {
+	console.log("Image Pressed");
+	$('.pictures').show();
+	$('.imageView').hide();
+  });
+  
+  
+}
+
 
 var getImage = function (getter, type) {
     $.ajax({

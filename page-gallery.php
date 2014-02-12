@@ -19,9 +19,10 @@ Template Name: Gallery Template
             <div class="content">
             	
                     <?php the_content(); ?>
+                    	<div class="imageView"><div class="pre"><</div><div class="next">></div></div>
+                    
                     <div class="pictures">
                     
-                  <?php get_random_pictures(); ?>
                   
                   
                   
