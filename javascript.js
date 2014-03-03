@@ -1,19 +1,24 @@
 $(window).load(function () {
-    $('.pictures').isotope({
-        filter: '*',
-        layoutMode: 'fitRows'
-    });
+
     
     $('#logo').click(function (event) {
-        $('.pictures').isotope('shuffle');
+        //$('.pictures').isotope('shuffle');
     });
-
 
 
     $(document).ready(function () {
     $('.imageView').hide();
 	
-	
+	$('.pictures').isotope({
+	    filter: '*',
+	    layoutMode: 'fitRows'
+	});
+    
+    $('.backBut').click(function(event) {
+	$('.imageview').fadeOut();
+	$('.pictures').fadeIn();
+    });
+    
     
     window.onhashchange = function(){
         var what_to_do = document.location.hash;    
@@ -24,11 +29,11 @@ $(window).load(function () {
        
         $('.loadingScreen').hide();
 
-        $('.mainmenu #data-filter').click(function (event) {
+        $('.mainMenu #data-filter').click(function (event) {
             console.log("subMenu Item Pressed");
             $('.imageView').hide();
             $('.pictures').show();
-            $('.mainmenu .currentSub').removeClass('currentSub');
+            $('.mainMenu .currentSub').removeClass('currentSub');
             $(this).addClass('currentSub');
 
             var selector = $(this).attr('data-filter');
@@ -40,7 +45,6 @@ $(window).load(function () {
 
         $('.mainmenu #topLevelAjaxButton').click(function (event) {
             document.location.hash = $(this).attr('gid');
-            
             console.log("topLevelAjaxButton is pressed");
             var $url;
             event.preventDefault();
@@ -49,8 +53,8 @@ $(window).load(function () {
                             return;
             }
             //remove current from previous current and collapse submenu
-            $('.mainmenu').find('.current').children('ul').slideToggle();
-            $('.mainmenu .current').removeClass('current');
+            $('.mainMenu').find('.current').children('ul').slideToggle();
+            $('.mainMenu .current').removeClass('current');
 			
             //add the this menu as the current and expand submenu
             $(this).addClass('current');
@@ -59,14 +63,12 @@ $(window).load(function () {
             //detect which type of button is pressed
             var type = $(this).attr('type');
             var getter = $(this).attr(type);
-            //$('.pictures').isotope( 'remove', $('.isotope-item') );
             
             $('.pictures').fadeOut(function( ) {
             
                         $('.pictures').find('*').remove();
-            
-            
             });
+
             
 			$('.loadingScreen').fadeIn(500);
             $('.pictures').isotope('destroy');
@@ -97,7 +99,7 @@ $(window).load(function () {
 								layoutMode: 'fitRows'                          
 								});
                           
-	clickImage();
+						clickImage();
                           });
                           
 
@@ -110,10 +112,16 @@ $(window).load(function () {
             });
 
         });
+        
     });
     
 var param1 = getUrlVars();
 $( "[gid|="+param1['gid']+"]" ).trigger('click');
+
+if (typeof param1['gid'] === 'undefined') {
+	$('.mainmenu #topLevelAjaxButton:first-child').trigger('click');
+}
+
 });
 
 function getUrlVars() {

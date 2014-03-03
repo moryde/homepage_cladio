@@ -5,11 +5,11 @@
     <div class="wrapper">
             
             
-            <div class="content">
             
 			                <div class="sidebar">			
 			                	<?php get_sidebar(); ?>
 			                </div>
+			                            <div class="content">
 			                
             <div class="pictures">
               <?php while ( have_posts() ) : the_post(); ?>
@@ -23,11 +23,11 @@
             
 
               </div>
-            
 
-            
              </div>
     </div>	
     
     <div class="footer">
+    <?php get_footer() ?>
+    
     </div>

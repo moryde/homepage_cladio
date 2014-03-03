@@ -5,12 +5,13 @@
     <div class="wrapper">
             
             
-            <div class="content">
-			                <div class="sidebar">			<?php get_sidebar(); ?></div>
-            <div class="pictures">
+            <div class="sidebar"><?php get_sidebar(); ?></div>
+                        <div class="content">
+            
               <?php while ( have_posts() ) : the_post(); ?>
-              	<div class="post">
-              	<?php the_title(); ?>
+              	<div class="postwp">
+
+              	<div class="title"><?php the_title(); ?></div>
               	<?php the_content(); ?>
               	</div>
               	
@@ -22,8 +23,9 @@
             
 
             
-             </div>
     </div>	
     
     <div class="footer">
+    <?php get_footer() ?>
+    
     </div>

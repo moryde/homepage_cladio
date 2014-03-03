@@ -11,7 +11,7 @@ Template Name: Portfilio Template
             
             <div class="menuContainer">
                 <div class="mainMenu">
-                <?php //wp_nav_menu(); ?>
+			<div class="title"><?php echo get_the_title(); ?> </div>
                 <?php portfolio_menu(); ?>
                 </div>
             </div>
@@ -19,7 +19,7 @@ Template Name: Portfilio Template
             <div class="content">
             	
                     <?php the_content(); ?>
-                    <div class="imageView"><div class="pre"><</div><div class="next">></div></div>
+                    	<div class="imageView"><div class="navigation"><div class="pre"><</div><div class="backBut">back</div><div class="next">></div></div><br></div>
                     
                     <div class="pictures">
                     
@@ -31,5 +31,7 @@ Template Name: Portfilio Template
     </div>	
 <?php endwhile; ?> 
     
-    <div class="footer">
-    </div>
+<div class="footer">
+<?php get_footer() ?>
+
+</div>

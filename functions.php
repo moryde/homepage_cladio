@@ -16,8 +16,8 @@ add_action('wp_ajax_get_picture_ids_thumb_url', 'get_picture_ids_thumb_url');
 
 add_theme_support('menus');
 register_nav_menus(array(
-    'photographers' => 'photographers',
-    'mainMenu' => 'mainMenu' // i like to set up a coupple at first in case i need them later
+    'photographers' => 'mainmenu',
+    'mainMenu' => 'rightmenu'
     
 ));
 
